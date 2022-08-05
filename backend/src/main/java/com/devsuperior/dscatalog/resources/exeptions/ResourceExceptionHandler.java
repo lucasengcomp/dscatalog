@@ -1,5 +1,6 @@
 package com.devsuperior.dscatalog.resources.exeptions;
 
+import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +15,25 @@ public class ResourceExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<StandardError> entityNotFound(ResourceNotFoundException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError error = new StandardError();
+        patternMessage(error, status, Utils.RESOURCE_NOT_FOUND, e.getMessage(), request);
+        return ResponseEntity.status(status).body(error);
+    }
 
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<StandardError> database(DatabaseException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError error = new StandardError();
+        patternMessage(error, status, Utils.DATABASE_EXCEPTION, e.getMessage(), request);
+        return ResponseEntity.status(status).body(error);
+    }
+
+    private void patternMessage(StandardError error, HttpStatus status, String databaseException, String e, HttpServletRequest request) {
         error.setTimestamp(Instant.now());
-        error.setStatus(HttpStatus.NOT_FOUND.value());
-        error.setError("Resource not found!");
-        error.setMessage(e.getMessage());
+        error.setStatus(status.value());
+        error.setError(databaseException);
+        error.setMessage(e);
         error.setPath(request.getRequestURI());
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 }
