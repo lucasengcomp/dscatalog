@@ -61,7 +61,7 @@ public class ProductServiceTests {
     public void findShouldFindByIdWhenIdExists() {
         ProductDTO result = service.findById(existingId);
         Mockito.verify(repository, Mockito.times(1)).findById(existingId);
-        Assertions.assertNotNull(service.findById(existingId));
+        Assertions.assertNotNull(result);
     }
 
     @Test
