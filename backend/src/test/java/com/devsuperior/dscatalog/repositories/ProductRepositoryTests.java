@@ -1,14 +1,12 @@
 package com.devsuperior.dscatalog.repositories;
 
 import com.devsuperior.dscatalog.factory.Factory;
-import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.util.Assert;
 
 @DataJpaTest
 public class ProductRepositoryTests {
