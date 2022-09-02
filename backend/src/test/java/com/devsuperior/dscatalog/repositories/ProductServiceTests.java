@@ -58,6 +58,13 @@ public class ProductServiceTests {
     }
 
     @Test
+    public void findShouldFindByIdWhenIdExists() {
+        ProductDTO result = service.findById(existingId);
+        Mockito.verify(repository, Mockito.times(1)).findById(existingId);
+        Assertions.assertNotNull(service.findById(existingId));
+    }
+
+    @Test
     public void findAllPagedShouldReturnPage() {
         Pageable pageable = PageRequest.of(0, 10);
         Page<ProductDTO> result = service.findAllPaged(pageable);
