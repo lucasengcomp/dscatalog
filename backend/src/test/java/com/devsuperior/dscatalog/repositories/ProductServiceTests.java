@@ -33,6 +33,7 @@ public class ProductServiceTests {
     private Long dependentId;
     private PageImpl<Product> page;
     private Product product;
+    private ProductDTO productDTO;
 
     @InjectMocks
     private ProductService service;
@@ -47,6 +48,7 @@ public class ProductServiceTests {
         dependentId = 4L;
         product = Factory.createProduct();
         page = new PageImpl<>(List.of(product));
+        productDTO = Factory.createProductDTO();
 
         Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(product));
         Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
@@ -55,6 +57,16 @@ public class ProductServiceTests {
         Mockito.doNothing().when(repository).deleteById(existingId);
         Mockito.doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(nonExistingId);
         Mockito.doThrow(DataIntegrityViolationException.class).when(repository).deleteById(dependentId);
+
+        Mockito.when(repository.getOne(existingId)).thenReturn(product);
+        Mockito.when(repository.getOne(nonExistingId)).thenThrow(ResourceNotFoundException.class);
+    }
+
+    @Test
+    public void updateShouldResourceNotFoundExceptionWhenIdDoesNotExist() {
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            service.update(nonExistingId, productDTO);
+        });
     }
 
     @Test
