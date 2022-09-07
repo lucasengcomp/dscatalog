@@ -20,6 +20,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -55,5 +56,14 @@ public class ProductResourcesTest {
     public void findAllShouldReturnPage() throws Exception {
         ResultActions result = mockMvc.perform(get("/products").accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isOk());
+    }
+
+    @Test
+    public void findByIdShouldReturnProductWhenIdExists() throws Exception {
+        ResultActions result = mockMvc.perform(get("/products/{id}", existingId).accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.id").exists());
+        result.andExpect(jsonPath("$.name").exists());
+        result.andExpect(jsonPath("$.description").exists());
     }
 }
