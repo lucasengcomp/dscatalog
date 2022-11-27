@@ -4,6 +4,7 @@ import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,11 +34,20 @@ public class ResourceExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
+    public ResponseEntity<ValidationError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
-        StandardError error = new StandardError();
+        ValidationError error = new ValidationError();
         patternMessage(error, status, ERROR_UNPROCESABLE_ENTITY, e.getMessage(), request);
+
+        fieldWithErrors(e, error);
+
         return ResponseEntity.status(status).body(error);
+    }
+
+    private static void fieldWithErrors(MethodArgumentNotValidException e, ValidationError error) {
+        for (FieldError fieldError:  e.getBindingResult().getFieldErrors()) {
+            error.addError(fieldError.getField(), fieldError.getDefaultMessage());
+        }
     }
 
     private void patternMessage(StandardError error, HttpStatus status, String databaseException, String e, HttpServletRequest request) {
