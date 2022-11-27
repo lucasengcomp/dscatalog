@@ -4,11 +4,14 @@ import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
+
+import static com.devsuperior.dscatalog.resources.exeptions.Utils.*;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -17,7 +20,7 @@ public class ResourceExceptionHandler {
     public ResponseEntity<StandardError> entityNotFound(ResourceNotFoundException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError error = new StandardError();
-        patternMessage(error, status, Utils.RESOURCE_NOT_FOUND, e.getMessage(), request);
+        patternMessage(error, status, RESOURCE_NOT_FOUND, e.getMessage(), request);
         return ResponseEntity.status(status).body(error);
     }
 
@@ -25,7 +28,15 @@ public class ResourceExceptionHandler {
     public ResponseEntity<StandardError> database(DatabaseException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError error = new StandardError();
-        patternMessage(error, status, Utils.DATABASE_EXCEPTION, e.getMessage(), request);
+        patternMessage(error, status, DATABASE_EXCEPTION, e.getMessage(), request);
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        StandardError error = new StandardError();
+        patternMessage(error, status, ERROR_UNPROCESABLE_ENTITY, e.getMessage(), request);
         return ResponseEntity.status(status).body(error);
     }
 

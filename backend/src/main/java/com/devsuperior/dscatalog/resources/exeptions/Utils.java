@@ -11,6 +11,5 @@ public class Utils {
 
     public static final String INTEGRITY_VIOLATION = "Integrity violation ";
 
-
-
+    public static final String ERROR_UNPROCESABLE_ENTITY = "Unprocessable entity. fields contain errors ";
 }
