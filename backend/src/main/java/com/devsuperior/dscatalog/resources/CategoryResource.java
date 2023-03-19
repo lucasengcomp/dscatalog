@@ -1,7 +1,7 @@
 package com.devsuperior.dscatalog.resources;
 
 import com.devsuperior.dscatalog.dto.CategoryDTO;
-import com.devsuperior.dscatalog.services.CategoryService;
+import com.devsuperior.dscatalog.services.category.CategoryServiceIT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +16,7 @@ import java.net.URI;
 public class CategoryResource {
 
     @Autowired
-    private CategoryService service;
+    private CategoryServiceIT service;
 
     @GetMapping
     public ResponseEntity<Page<CategoryDTO>> findAllPaged(Pageable pageable) {

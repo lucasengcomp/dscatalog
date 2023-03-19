@@ -4,9 +4,9 @@ import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.entities.Product;
 import com.devsuperior.dscatalog.factory.Factory;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
-import com.devsuperior.dscatalog.services.ProductService;
-import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
-import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
+import com.devsuperior.dscatalog.services.product.ProductServiceImpl;
+import com.devsuperior.dscatalog.services.Utils.exceptions.DatabaseException;
+import com.devsuperior.dscatalog.services.Utils.exceptions.ResourceNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
-public class ProductServiceTests {
+public class ProductServiceImplTests {
 
     private Long existingId;
     private Long nonExistingId;
@@ -37,7 +37,7 @@ public class ProductServiceTests {
     private ProductDTO productDTO;
 
     @InjectMocks
-    private ProductService service;
+    private ProductServiceImpl service;
 
     @Mock
     private ProductRepository repository;

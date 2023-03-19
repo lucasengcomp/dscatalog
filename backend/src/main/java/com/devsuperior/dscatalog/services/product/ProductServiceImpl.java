@@ -1,4 +1,4 @@
-package com.devsuperior.dscatalog.services;
+package com.devsuperior.dscatalog.services.product;
 
 import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.dto.ProductDTO;
@@ -7,8 +7,8 @@ import com.devsuperior.dscatalog.entities.Product;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
 import com.devsuperior.dscatalog.resources.exeptions.Utils;
-import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
-import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
+import com.devsuperior.dscatalog.services.Utils.exceptions.DatabaseException;
+import com.devsuperior.dscatalog.services.Utils.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -21,7 +21,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
-public class ProductService {
+public class ProductServiceImpl implements ProductServiceIT {
 
     @Autowired
     private ProductRepository repository;
@@ -29,12 +29,14 @@ public class ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Override
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAllPaged(Pageable pageable) {
         Page<Product> list = repository.findAll(pageable);
-        return list.map(x -> new ProductDTO(x));
+        return list.map(ProductDTO::new);
     }
 
+    @Override
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
         Optional<Product> obj = repository.findById(id);
@@ -42,6 +44,7 @@ public class ProductService {
         return new ProductDTO(entity, entity.getCategories());
     }
 
+    @Override
     @Transactional
     public ProductDTO insert(ProductDTO dto) {
         Product entity = new Product();
@@ -50,6 +53,7 @@ public class ProductService {
         return new ProductDTO(entity);
     }
 
+    @Override
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto) {
         try {
@@ -62,6 +66,8 @@ public class ProductService {
         }
     }
 
+    @Override
+    @Transactional
     public void delete(Long id) {
         try {
             repository.deleteById(id);
@@ -79,11 +85,10 @@ public class ProductService {
         entity.setImgUrl(dto.getImgUrl());
         entity.setPrice(dto.getPrice());
         entity.getCategories().clear();
-
-        walksCategory(dto, entity);
+        associateProductCategory(dto, entity);
     }
 
-    private void walksCategory(ProductDTO dto, Product entity) {
+    private void associateProductCategory(ProductDTO dto, Product entity) {
         for (CategoryDTO categoryDTO : dto.getCategories()) {
             Category category = categoryRepository.getOne(categoryDTO.getId());
             entity.getCategories().add(category);

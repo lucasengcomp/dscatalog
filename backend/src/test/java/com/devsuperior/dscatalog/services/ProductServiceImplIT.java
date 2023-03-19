@@ -2,7 +2,8 @@ package com.devsuperior.dscatalog.services;
 
 import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
-import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
+import com.devsuperior.dscatalog.services.Utils.exceptions.ResourceNotFoundException;
+import com.devsuperior.dscatalog.services.product.ProductServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,10 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
-public class ProductServiceIT {
+public class ProductServiceImplIT {
 
     @Autowired
-    private ProductService service;
+    private ProductServiceImpl service;
 
     @Autowired
     private ProductRepository repository;

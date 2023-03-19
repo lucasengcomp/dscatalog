@@ -1,16 +1,15 @@
-package com.devsuperior.dscatalog.services;
+package com.devsuperior.dscatalog.services.user;
 
 import com.devsuperior.dscatalog.dto.RoleDTO;
 import com.devsuperior.dscatalog.dto.UserDTO;
 import com.devsuperior.dscatalog.dto.UserInsertDTO;
 import com.devsuperior.dscatalog.entities.Role;
 import com.devsuperior.dscatalog.entities.User;
-import com.devsuperior.dscatalog.repositories.CategoryRepository;
 import com.devsuperior.dscatalog.repositories.RoleRepository;
 import com.devsuperior.dscatalog.repositories.UserRepository;
 import com.devsuperior.dscatalog.resources.exeptions.Utils;
-import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
-import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
+import com.devsuperior.dscatalog.services.Utils.exceptions.DatabaseException;
+import com.devsuperior.dscatalog.services.Utils.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -24,7 +23,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserServiceImpl implements UserServiceIT {
 
     @Autowired
     private UserRepository repository;
@@ -35,12 +34,14 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Override
     @Transactional(readOnly = true)
     public Page<UserDTO> findAllPaged(Pageable pageable) {
         Page<User> list = repository.findAll(pageable);
         return list.map(UserDTO::new);
     }
 
+    @Override
     @Transactional(readOnly = true)
     public UserDTO findById(Long id) {
         Optional<User> obj = repository.findById(id);
@@ -48,6 +49,7 @@ public class UserService {
         return new UserDTO(entity);
     }
 
+    @Override
     @Transactional
     public UserDTO insert(UserInsertDTO dto) {
         User entity = new User();
@@ -57,6 +59,7 @@ public class UserService {
         return new UserDTO(entity);
     }
 
+    @Override
     @Transactional
     public UserDTO update(Long id, UserDTO dto) {
         try {
@@ -69,6 +72,8 @@ public class UserService {
         }
     }
 
+    @Override
+    @Transactional
     public void delete(Long id) {
         try {
             repository.deleteById(id);
