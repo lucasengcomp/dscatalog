@@ -4,7 +4,7 @@ package com.devsuperior.dscatalog.resources;
 import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.factory.Factory;
 import com.devsuperior.dscatalog.services.product.ProductServiceImpl;
-import com.devsuperior.dscatalog.services.Utils.exceptions.DatabaseException;
+import com.devsuperior.dscatalog.services.Utils.exceptions.DataBaeException;
 import com.devsuperior.dscatalog.services.Utils.exceptions.ResourceNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,7 +65,7 @@ public class ProductResourcesTest {
 
         doNothing().when(service).delete(existingId);
         doThrow(ResourceNotFoundException.class).when(service).delete(nonExistingId);
-        doThrow(DatabaseException.class).when(service).delete(dependentId);
+        doThrow(DataBaeException.class).when(service).delete(dependentId);
     }
 
     @Test

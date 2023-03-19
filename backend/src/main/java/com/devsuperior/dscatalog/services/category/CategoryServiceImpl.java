@@ -4,7 +4,7 @@ import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
 import com.devsuperior.dscatalog.resources.exeptions.Utils;
-import com.devsuperior.dscatalog.services.Utils.exceptions.DatabaseException;
+import com.devsuperior.dscatalog.services.Utils.exceptions.DataBaeException;
 import com.devsuperior.dscatalog.services.Utils.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -68,7 +68,7 @@ public class CategoryServiceImpl implements CategoryServiceIT {
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException(Utils.ID_NOT_FOUND + id);
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException(Utils.INTEGRITY_VIOLATION);
+            throw new DataBaeException(Utils.INTEGRITY_VIOLATION);
         }
     }
 }

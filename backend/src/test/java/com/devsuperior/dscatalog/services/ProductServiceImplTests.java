@@ -5,7 +5,7 @@ import com.devsuperior.dscatalog.entities.Product;
 import com.devsuperior.dscatalog.factory.Factory;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
 import com.devsuperior.dscatalog.services.product.ProductServiceImpl;
-import com.devsuperior.dscatalog.services.Utils.exceptions.DatabaseException;
+import com.devsuperior.dscatalog.services.Utils.exceptions.DataBaeException;
 import com.devsuperior.dscatalog.services.Utils.exceptions.ResourceNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -95,7 +95,7 @@ public class ProductServiceImplTests {
 
     @Test
     public void deleteShouldThrowDatabaseExceptionWhenDependentId() {
-        Assertions.assertThrows(DatabaseException.class, () -> {
+        Assertions.assertThrows(DataBaeException.class, () -> {
             service.delete(dependentId);
         });
         Mockito.verify(repository, Mockito.times(1)).deleteById(dependentId);

@@ -1,6 +1,6 @@
 package com.devsuperior.dscatalog.resources.exeptions;
 
-import com.devsuperior.dscatalog.services.Utils.exceptions.DatabaseException;
+import com.devsuperior.dscatalog.services.Utils.exceptions.DataBaeException;
 import com.devsuperior.dscatalog.services.Utils.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +25,8 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(error);
     }
 
-    @ExceptionHandler(DatabaseException.class)
-    public ResponseEntity<StandardError> database(DatabaseException e, HttpServletRequest request) {
+    @ExceptionHandler(DataBaeException.class)
+    public ResponseEntity<StandardError> database(DataBaeException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError error = new StandardError();
         patternMessage(error, status, DATABASE_EXCEPTION, e.getMessage(), request);

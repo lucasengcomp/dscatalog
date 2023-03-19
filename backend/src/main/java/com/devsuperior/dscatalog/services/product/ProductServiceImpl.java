@@ -7,7 +7,7 @@ import com.devsuperior.dscatalog.entities.Product;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
 import com.devsuperior.dscatalog.resources.exeptions.Utils;
-import com.devsuperior.dscatalog.services.Utils.exceptions.DatabaseException;
+import com.devsuperior.dscatalog.services.Utils.exceptions.DataBaeException;
 import com.devsuperior.dscatalog.services.Utils.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductServiceIT {
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException(Utils.ID_NOT_FOUND + id);
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException(Utils.INTEGRITY_VIOLATION);
+            throw new DataBaeException(Utils.INTEGRITY_VIOLATION);
         }
     }
 
