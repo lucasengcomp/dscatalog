@@ -1,4 +1,4 @@
-package com.devsuperior.dscatalog.services.Utils.validation;
+package com.devsuperior.dscatalog.services.utils.validation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

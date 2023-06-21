@@ -1,4 +1,4 @@
-package com.devsuperior.dscatalog.services.Utils.exceptions;
+package com.devsuperior.dscatalog.services.utils.exceptions;
 
 public class DataBaeException extends RuntimeException {
     private static final long serialVersionUID = 1L;

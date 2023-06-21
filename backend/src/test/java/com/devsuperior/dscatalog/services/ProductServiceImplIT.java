@@ -2,7 +2,7 @@ package com.devsuperior.dscatalog.services;
 
 import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
-import com.devsuperior.dscatalog.services.Utils.exceptions.ResourceNotFoundException;
+import com.devsuperior.dscatalog.services.utils.exceptions.ResourceNotFoundException;
 import com.devsuperior.dscatalog.services.product.ProductServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

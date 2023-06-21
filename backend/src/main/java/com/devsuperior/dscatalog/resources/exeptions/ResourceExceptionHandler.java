@@ -1,7 +1,7 @@
 package com.devsuperior.dscatalog.resources.exeptions;
 
-import com.devsuperior.dscatalog.services.Utils.exceptions.DataBaeException;
-import com.devsuperior.dscatalog.services.Utils.exceptions.ResourceNotFoundException;
+import com.devsuperior.dscatalog.services.utils.exceptions.DataBaeException;
+import com.devsuperior.dscatalog.services.utils.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
